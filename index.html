@@ -424,8 +424,9 @@
             const mouseInfluenceRadius = 12;
             const mouseInfluenceRadiusSq = mouseInfluenceRadius * mouseInfluenceRadius;
 
-            const currentLerpSpeed = 0.02;
-            const friction = 0.9;
+            /* Как в оригинале до унификации: первая фаза была 0.015 / 0.95 — так слово собирается медленнее */
+            const currentLerpSpeed = 0.015;
+            const friction = 0.95;
 
             if (modalShown && floatBlend < 1) {
                 floatBlend = Math.min(1, floatBlend + 0.0028);
