@@ -7,9 +7,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --neon-blue: #00f2ff;
+            --neon-blue: #14CF93;
             --deep-space: #010103;
-            --glow-gold: #ffdd00;
+            --glow-gold: #fff;
         }
 
         body, html {
@@ -18,9 +18,15 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: var(--deep-space);
+            background-color: #010103;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             touch-action: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         #canvas-container {
@@ -35,37 +41,242 @@
         #text-canvas {
             display: none;
         }
+
+        .modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(50px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 1000ms ease, visibility 1000ms ease, transform 1000ms ease-out;
+        }
+
+        .modal.modal--visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: scale(1) translate(-50%, -50%);
+        }
+
+        .modal__heading {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            color: #fff;
+            gap: 10px;
+        }
+
+        .modal__heading h1 {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .modal__heading p {
+            max-width: 250px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .modal__social {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            gap: 10px;
+        }
+
+        .modal__social a {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            gap: 10px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 230px;
+            padding-block: 10px;
+            transition: background-color 0.3s ease;
+            opacity: 0;
+            transform: scale(0.94);
+            will-change: opacity, transform;
+        }
+
+        .modal__social a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .modal__social a:hover .modal__social-icon {
+            transform: scale(1.2);
+        }
+
+        /* Одна ссылка = полный цикл (fade → чуть увеличить → уменьшить). Следующая стартует после окончания предыдущей + пауза */
+        .modal.modal--visible .modal__social a {
+            animation: social-link-appear 1000ms ease-out both;
+        }
+
+        .modal.modal--visible .modal__social a:nth-child(1) { animation-delay: 0ms; }
+        .modal.modal--visible .modal__social a:nth-child(2) { animation-delay: 420ms; }
+        .modal.modal--visible .modal__social a:nth-child(3) { animation-delay: 840ms; }
+        .modal.modal--visible .modal__social a:nth-child(4) { animation-delay: 1260ms; }
+        .modal.modal--visible .modal__social a:nth-child(5) { animation-delay: 1680ms; }
+
+        @keyframes social-link-appear {
+            0% {
+                opacity: 0;
+                transform: scale(0.94);
+            }
+            42% {
+                opacity: 1;
+                transform: scale(1.03);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal__social-icon {
+            position: absolute;
+            left: 20px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
     </style>
 </head>
 <body>
     <canvas id="text-canvas"></canvas>
     <div id="canvas-container"></div>
 
+    <div class="modal">
+        <div class="modal__heading">
+            <h1>Code-X web development</h1>
+            <p>Мы создаем сайты и приложения для вашего бизнеса</p>
+        </div>
+        <nav class="modal__social">
+            <a href="#" target="_blank">
+                <span class="modal__social-icon">
+                    <img src="./images/code-x-1.svg" alt="Code-X">
+                </span>
+                <span class="modal__social-text">Code-X website</span>
+            </a>
+            <a href="#" target="_blank">
+                <span class="modal__social-icon">
+                    <img src="./images/telegram-1.svg" alt="Telegram">
+                </span>
+                <span class="modal__social-text">Telegram</span>
+            </a>
+            <a href="#" target="_blank">
+                <span class="modal__social-icon">
+                    <img src="./images/vk-1.svg" alt="Vkontakte">
+                </span>
+                <span class="modal__social-text">Vkontakte</span>
+            </a>
+            <a href="#" target="_blank">
+                <span class="modal__social-icon">
+                    <img src="./images/whatsapp-1.svg" alt="WhatsApp">
+                </span>
+                <span class="modal__social-text">WhatsApp</span>
+            </a>
+            <a href="#" target="_blank">
+                <span class="modal__social-icon">
+                    <img src="./images/instagram-1.svg" alt="Instagram">
+                </span>
+                <span class="modal__social-text">Instagram</span>
+            </a>
+        </nav>
+    </div>
     <script>
+        const ACCENT_HEX = '#14CF93';
+
         const DISPLAY_TEXT = 'Code-X';
 
         const textCanvas = document.getElementById('text-canvas');
         const tCtx = textCanvas.getContext('2d', { willReadFrequently: true });
+        const modal = document.querySelector('.modal');
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance'
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const particleCount = 45000;
+        const particleCount = (function resolveParticleCount() {
+            const max = 45000;
+            const w = window.innerWidth;
+            if (w < 480) return Math.min(max, 22000);
+            if (w < 900) return Math.min(max, 32000);
+            return max;
+        })();
         const positions = new Float32Array(particleCount * 3);
         const targetPositions = new Float32Array(particleCount * 3);
         const velocities = new Float32Array(particleCount * 3);
         const colors = new Float32Array(particleCount * 3);
+        const digits = new Float32Array(particleCount);
+        const floatPhase = new Float32Array(particleCount);
         const geometry = new THREE.BufferGeometry();
 
-        let isInitialLoad = true;
-        let mouse = new THREE.Vector3(-1000, -1000, 0);
+        function makeDigitAtlasTexture() {
+            const c = document.createElement('canvas');
+            c.width = 256;
+            c.height = 128;
+            const ctx = c.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('0', c.width * 0.25, c.height * 0.5);
+            ctx.fillText('1', c.width * 0.75, c.height * 0.5);
+            const tex = new THREE.CanvasTexture(c);
+            tex.minFilter = THREE.LinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+            return tex;
+        }
 
-        const baseColor = new THREE.Color(0x00f2ff);
-        const goldColor = new THREE.Color(0xffdd00);
+        const digitMap = makeDigitAtlasTexture();
+
+        let mouse = new THREE.Vector3(-1000, -1000, 0);
+        let modalShown = false;
+        let floatBlend = 0;
+        let frameCounter = 0;
+
+        const baseColor = new THREE.Color(ACCENT_HEX);
+        const goldColor = new THREE.Color(0xffffff);
 
         function textToPoints(text) {
             const fontSize = 100;
@@ -126,103 +337,200 @@
             colors[i3] = baseColor.r;
             colors[i3 + 1] = baseColor.g;
             colors[i3 + 2] = baseColor.b;
+
+            digits[i] = Math.random() < 0.5 ? 0 : 1;
+            floatPhase[i] = Math.random() * Math.PI * 2;
         }
 
         textToPoints(DISPLAY_TEXT);
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('digit', new THREE.BufferAttribute(digits, 1));
 
-        const material = new THREE.PointsMaterial({
-            size: 0.15,
-            vertexColors: true,
+        const digitMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                map: { value: digitMap },
+                size: { value: 14 }
+            },
+            vertexShader: `
+                attribute vec3 color;
+                attribute float digit;
+                varying vec3 vColor;
+                varying float vDigit;
+                uniform float size;
+                void main() {
+                    vColor = color;
+                    vDigit = digit;
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = size * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                uniform sampler2D map;
+                varying vec3 vColor;
+                varying float vDigit;
+                void main() {
+                    float u = vDigit * 0.5 + gl_PointCoord.x * 0.5;
+                    vec2 uv = vec2(u, 1.0 - gl_PointCoord.y);
+                    vec4 tex = texture2D(map, uv);
+                    if (tex.a < 0.15) discard;
+                    gl_FragColor = vec4(tex.rgb * vColor, tex.a * 0.85);
+                }
+            `,
             transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending,
+            blending: THREE.NormalBlending,
             depthWrite: false
         });
+
+        const material = digitMaterial;
 
         const pointsObj = new THREE.Points(geometry, material);
         scene.add(pointsObj);
 
         camera.position.z = 100;
 
+        const mouseRay = new THREE.Vector3();
+        const mouseDir = new THREE.Vector3();
+
         window.addEventListener('mousemove', (e) => {
             const rect = renderer.domElement.getBoundingClientRect();
             const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
             const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-            const vector = new THREE.Vector3(x, y, 0.5);
-            vector.unproject(camera);
-            const dir = vector.sub(camera.position).normalize();
-            const distance = -camera.position.z / dir.z;
-            mouse = camera.position.clone().add(dir.multiplyScalar(distance));
+            mouseRay.set(x, y, 0.5);
+            mouseRay.unproject(camera);
+            mouseDir.copy(mouseRay).sub(camera.position).normalize();
+            const distance = -camera.position.z / mouseDir.z;
+            mouse.copy(camera.position).addScaledVector(mouseDir, distance);
         });
+
+        function showModal() {
+            if (modalShown) return;
+            modalShown = true;
+            modal.classList.add('modal--visible');
+        }
 
         function animate() {
             requestAnimationFrame(animate);
+            if (document.hidden) return;
 
             const posAttr = geometry.attributes.position;
             const colAttr = geometry.attributes.color;
+            const posArr = posAttr.array;
+            const colArr = colAttr.array;
 
             const mouseInfluenceRadius = 12;
+            const mouseInfluenceRadiusSq = mouseInfluenceRadius * mouseInfluenceRadius;
 
-            let currentLerpSpeed = isInitialLoad ? 0.015 : 0.05;
-            const friction = isInitialLoad ? 0.95 : 0.85;
+            const currentLerpSpeed = 0.02;
+            const friction = 0.9;
 
-            for (let i = 0; i < particleCount; i++) {
-                const i3 = i * 3;
+            if (modalShown && floatBlend < 1) {
+                floatBlend = Math.min(1, floatBlend + 0.0028);
+            }
 
+            const tFloat = performance.now() * 0.001;
+
+            const br = baseColor.r;
+            const bg = baseColor.g;
+            const bb = baseColor.b;
+            const gr = goldColor.r;
+            const gg = goldColor.g;
+            const gb = goldColor.b;
+
+            for (let i = 0, i3 = 0; i < particleCount; i++, i3 += 3) {
                 let tx = targetPositions[i3];
                 let ty = targetPositions[i3 + 1];
                 let tz = targetPositions[i3 + 2];
 
-                const dx = posAttr.array[i3] - mouse.x;
-                const dy = posAttr.array[i3 + 1] - mouse.y;
-                const dz = posAttr.array[i3 + 2] - mouse.z;
-                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                if (modalShown && floatBlend > 0) {
+                    const ph = floatPhase[i];
+                    const w = floatBlend;
+                    const ampXY = 0.8;
+                    const ampZ = 0.14;
+                    tx += (Math.sin(tFloat * 1.65 + ph) + Math.sin(tFloat * 0.72 + ph * 2.7) * 0.35) * ampXY * w;
+                    ty += (Math.cos(tFloat * 1.42 + ph * 1.85) + Math.sin(tFloat * 0.55 + ph * 1.1) * 0.3) * ampXY * w;
+                    tz += Math.sin(tFloat * 1.05 + ph * 0.65) * ampZ * w;
+                }
 
-                if (dist < mouseInfluenceRadius) {
+                const dx = posArr[i3] - mouse.x;
+                const dy = posArr[i3 + 1] - mouse.y;
+                const dz = posArr[i3 + 2] - mouse.z;
+                const distSq = dx * dx + dy * dy + dz * dz;
+
+                if (distSq < mouseInfluenceRadiusSq && distSq > 1e-10) {
+                    const dist = Math.sqrt(distSq);
                     const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius;
-                    velocities[i3] += (dx / dist) * force * 1.5;
-                    velocities[i3 + 1] += (dy / dist) * force * 1.5;
-                    velocities[i3 + 2] += (dz / dist) * force * 1.5;
+                    const invDist = 1 / dist;
+                    velocities[i3] += dx * invDist * force * 1.5;
+                    velocities[i3 + 1] += dy * invDist * force * 1.5;
+                    velocities[i3 + 2] += dz * invDist * force * 1.5;
 
-                    colAttr.array[i3] += (goldColor.r - colAttr.array[i3]) * 0.2;
-                    colAttr.array[i3 + 1] += (goldColor.g - colAttr.array[i3 + 1]) * 0.2;
-                    colAttr.array[i3 + 2] += (goldColor.b - colAttr.array[i3 + 2]) * 0.2;
+                    colArr[i3] += (gr - colArr[i3]) * 0.2;
+                    colArr[i3 + 1] += (gg - colArr[i3 + 1]) * 0.2;
+                    colArr[i3 + 2] += (gb - colArr[i3 + 2]) * 0.2;
                 } else {
-                    colAttr.array[i3] += (baseColor.r - colAttr.array[i3]) * 0.05;
-                    colAttr.array[i3 + 1] += (baseColor.g - colAttr.array[i3 + 1]) * 0.05;
-                    colAttr.array[i3 + 2] += (baseColor.b - colAttr.array[i3 + 2]) * 0.05;
+                    colArr[i3] += (br - colArr[i3]) * 0.05;
+                    colArr[i3 + 1] += (bg - colArr[i3 + 1]) * 0.05;
+                    colArr[i3 + 2] += (bb - colArr[i3 + 2]) * 0.05;
                 }
 
                 velocities[i3] *= friction;
                 velocities[i3 + 1] *= friction;
                 velocities[i3 + 2] *= friction;
 
-                posAttr.array[i3] += velocities[i3];
-                posAttr.array[i3 + 1] += velocities[i3 + 1];
-                posAttr.array[i3 + 2] += velocities[i3 + 2];
+                posArr[i3] += velocities[i3];
+                posArr[i3 + 1] += velocities[i3 + 1];
+                posArr[i3 + 2] += velocities[i3 + 2];
 
-                posAttr.array[i3] += (tx - posAttr.array[i3]) * currentLerpSpeed;
-                posAttr.array[i3 + 1] += (ty - posAttr.array[i3 + 1]) * currentLerpSpeed;
-                posAttr.array[i3 + 2] += (tz - posAttr.array[i3 + 2]) * currentLerpSpeed;
+                posArr[i3] += (tx - posArr[i3]) * currentLerpSpeed;
+                posArr[i3 + 1] += (ty - posArr[i3 + 1]) * currentLerpSpeed;
+                posArr[i3 + 2] += (tz - posArr[i3 + 2]) * currentLerpSpeed;
             }
 
             posAttr.needsUpdate = true;
             colAttr.needsUpdate = true;
 
-            pointsObj.rotation.y *= 0.9;
+            if (!modalShown) {
+                pointsObj.rotation.y *= 0.9;
+            }
+
+            frameCounter += 1;
+            if (!modalShown && frameCounter % 6 === 0) {
+                let sumDist = 0;
+                let sumVel = 0;
+                let sampleCount = 0;
+                const sampleStep = 64;
+
+                for (let i = 0; i < particleCount; i += sampleStep) {
+                    const i3 = i * 3;
+                    const dx = targetPositions[i3] - posAttr.array[i3];
+                    const dy = targetPositions[i3 + 1] - posAttr.array[i3 + 1];
+                    const dz = targetPositions[i3 + 2] - posAttr.array[i3 + 2];
+                    sumDist += Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    const vx = velocities[i3];
+                    const vy = velocities[i3 + 1];
+                    const vz = velocities[i3 + 2];
+                    sumVel += Math.sqrt(vx * vx + vy * vy + vz * vz);
+                    sampleCount += 1;
+                }
+
+                const avgDist = sumDist / sampleCount;
+                const avgVel = sumVel / sampleCount;
+                /* Пораньше: слово уже читается, но частицы ещё могут медленно доезжать */
+                if (avgDist < 1 && avgVel < 0.045) {
+                    showModal();
+                }
+            }
 
             renderer.render(scene, camera);
         }
 
         window.addEventListener('load', () => {
             animate();
-            setTimeout(() => {
-                isInitialLoad = false;
-            }, 4000);
         });
 
         window.addEventListener('resize', () => {
