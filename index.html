@@ -421,8 +421,10 @@
             const posArr = posAttr.array;
             const colArr = colAttr.array;
 
-            const mouseInfluenceRadius = 12;
+            const mouseInfluenceRadius = 10;
             const mouseInfluenceRadiusSq = mouseInfluenceRadius * mouseInfluenceRadius;
+            const mousePushStrength = 0.88;
+            const mouseVelocityDamping = 0.9;
 
             /* Как в оригинале до унификации: первая фаза была 0.015 / 0.95 — так слово собирается медленнее */
             const currentLerpSpeed = 0.015;
@@ -465,9 +467,12 @@
                     const dist = Math.sqrt(distSq);
                     const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius;
                     const invDist = 1 / dist;
-                    velocities[i3] += dx * invDist * force * 1.5;
-                    velocities[i3 + 1] += dy * invDist * force * 1.5;
-                    velocities[i3 + 2] += dz * invDist * force * 1.5;
+                    velocities[i3] += dx * invDist * force * mousePushStrength;
+                    velocities[i3 + 1] += dy * invDist * force * mousePushStrength;
+                    velocities[i3 + 2] += dz * invDist * force * mousePushStrength;
+                    velocities[i3] *= mouseVelocityDamping;
+                    velocities[i3 + 1] *= mouseVelocityDamping;
+                    velocities[i3 + 2] *= mouseVelocityDamping;
 
                     colArr[i3] += (gr - colArr[i3]) * 0.2;
                     colArr[i3 + 1] += (gg - colArr[i3 + 1]) * 0.2;
