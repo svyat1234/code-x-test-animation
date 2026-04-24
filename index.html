@@ -55,134 +55,262 @@
             pointer-events: none;
         }
 
-        .modal {
-            position: absolute;
-            top: 50%;
+        .buttons {
+            position: fixed;
+            bottom: 300px;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.95);
-            z-index: 1000;
+            transform: translateX(-50%);
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            box-sizing: border-box;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(50px);
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: opacity 1000ms ease, visibility 1000ms ease, transform 1000ms ease-out;
-        }
-
-        .modal.modal--visible {
+            gap: 20px;
+            z-index: 1000;
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: scale(1) translate(-50%, -50%);
+            transition: opacity 0.45s ease, visibility 0.45s ease;
         }
 
-        .modal__heading {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-            color: #fff;
-            gap: 10px;
+        .buttons.buttons--concealed {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
 
-        .modal__heading h1 {
-            font-size: 24px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .modal__heading p {
-            max-width: 250px;
-            text-align: center;
+        .button {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: transparent;
+            color: #14cf94;
+            border-radius: 5px;
+            cursor: pointer;
             font-size: 14px;
+            font-weight: 100;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 0;
+            padding-left: 5px;
+            transition: color 0.3s ease;
+        }
+        
+        .button:hover {
+            color: #ffffff;
         }
 
-        .modal__social {
-            margin-top: 20px;
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            right: 0;
+            width: auto;
+            height: 100%;
+            z-index: 1100;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-sizing: border-box;
-            gap: 10px;
+            padding: 32px clamp(20px, 4vw, 56px) 32px clamp(28px, 6vw, 72px);
+            background: rgba(1, 1, 3, 0.82);
+            border-left: 1px solid rgba(20, 207, 147, 0.25);
+            box-shadow: -16px 0 48px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(18px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(28px);
+            transition: opacity 0.45s ease, visibility 0.45s ease, transform 0.45s ease;
         }
 
-        .modal__social a {
+        .admin-modal.admin-modal--visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .admin-modal__inner {
+            width: 100%;
+            max-width: min(400px, 86%);
             position: relative;
+        }
+
+        .admin-modal__back,
+        .projects-panel__back {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 0 0 12px -6px;
+            padding: 0;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(20, 207, 147, 0.85);
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .projects-panel__back {
+            margin: 0 0 12px auto;
+        }
+
+        .admin-modal__back:hover,
+        .projects-panel__back:hover {
+            color: #fff;
+        }
+
+        .admin-modal__back svg,
+        .projects-panel__back svg {
+            width: 28px;
+            height: auto;
+            display: block;
+        }
+
+        .admin-modal__back path,
+        .projects-panel__back path {
+            fill: currentColor;
+        }
+
+        .admin-modal__inner h2 {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: 22px;
+        }
+
+        .admin-modal__inner label {
+            display: block;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+            margin-bottom: 6px;
+            letter-spacing: 0.04em;
+        }
+
+        .admin-modal__inner input {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .admin-modal__inner input:focus {
+            border-color: rgba(20, 207, 147, 0.55);
+        }
+
+        .admin-modal__submit {
+            width: 100%;
+            margin-top: 8px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #14CF93;
+            color: #010103;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease, filter 0.2s ease;
+        }
+
+        .admin-modal__submit:hover {
+            filter: brightness(1.08);
+        }
+
+        .projects-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 50%;
+            width: auto;
+            height: 100%;
+            z-index: 1090;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 32px clamp(28px, 6vw, 72px) 32px clamp(20px, 4vw, 56px);
+            background: rgba(1, 1, 3, 0.82);
+            border-right: 1px solid rgba(20, 207, 147, 0.25);
+            box-shadow: 16px 0 48px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(18px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(-28px);
+            transition: opacity 0.45s ease, visibility 0.45s ease, transform 0.45s ease;
+        }
+
+        .projects-panel.projects-panel--visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .projects-panel__inner {
+            width: 100%;
+            max-width: min(400px, 86%);
+            position: relative;
+        }
+
+        .projects-panel__inner h2 {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: 20px;
+        }
+
+        .projects-panel__hint {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            margin-bottom: 20px;
+            letter-spacing: 0.03em;
+        }
+
+        .projects-panel__list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .projects-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.28);
             text-decoration: none;
             color: #fff;
-            gap: 10px;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 230px;
-            padding-block: 10px;
-            transition: background-color 0.3s ease;
-            opacity: 0;
-            transform: scale(0.94);
-            will-change: opacity, transform;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
         }
 
-        .modal__social a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .modal__social a:hover .modal__social-icon {
-            transform: scale(1.2);
-        }
-
-        /* Одна ссылка = полный цикл (fade → чуть увеличить → уменьшить). Следующая стартует после окончания предыдущей + пауза */
-        .modal.modal--visible .modal__social a {
-            animation: social-link-appear 1000ms ease-out both;
+        .projects-row:hover {
+            border-color: rgba(20, 207, 147, 0.45);
+            background: rgba(20, 207, 147, 0.08);
+            color: #fff;
         }
 
-        .modal.modal--visible .modal__social a:nth-child(1) { animation-delay: 0ms; }
-        .modal.modal--visible .modal__social a:nth-child(2) { animation-delay: 420ms; }
-        .modal.modal--visible .modal__social a:nth-child(3) { animation-delay: 840ms; }
-        .modal.modal--visible .modal__social a:nth-child(4) { animation-delay: 1260ms; }
-        .modal.modal--visible .modal__social a:nth-child(5) { animation-delay: 1680ms; }
-
-        @keyframes social-link-appear {
-            0% {
-                opacity: 0;
-                transform: scale(0.94);
-            }
-            42% {
-                opacity: 1;
-                transform: scale(1.03);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .modal__social-icon {
-            position: absolute;
-            left: 20px;
+        .projects-row__icon {
             width: 25px;
             height: 25px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        .projects-row__label {
+            flex: 1;
+            text-align: left;
         }
 
     </style>
@@ -191,44 +319,58 @@
     <canvas id="text-canvas"></canvas>
     <div id="canvas-container"></div>
 
-    <div class="modal">
-        <div class="modal__heading">
-            <h1>Code-X web development</h1>
-            <p>Мы создаем сайты и приложения для вашего бизнеса</p>
-        </div>
-        <nav class="modal__social">
-            <a href="#" target="_blank">
-                <span class="modal__social-icon">
-                    <img src="./images/code-x-1.svg" alt="Code-X">
-                </span>
-                <span class="modal__social-text">Code-X website</span>
-            </a>
-            <a href="#" target="_blank">
-                <span class="modal__social-icon">
-                    <img src="./images/telegram-1.svg" alt="Telegram">
-                </span>
-                <span class="modal__social-text">Telegram</span>
-            </a>
-            <a href="#" target="_blank">
-                <span class="modal__social-icon">
-                    <img src="./images/vk-1.svg" alt="Vkontakte">
-                </span>
-                <span class="modal__social-text">Vkontakte</span>
-            </a>
-            <a href="#" target="_blank">
-                <span class="modal__social-icon">
-                    <img src="./images/whatsapp-1.svg" alt="WhatsApp">
-                </span>
-                <span class="modal__social-text">WhatsApp</span>
-            </a>
-            <a href="#" target="_blank">
-                <span class="modal__social-icon">
-                    <img src="./images/instagram-1.svg" alt="Instagram">
-                </span>
-                <span class="modal__social-text">Instagram</span>
-            </a>
-        </nav>
+    <div class="buttons buttons--concealed">
+        <button type="button" class="button projects-button">Projects</button>
+        <button type="button" class="button enter-button">Enter admin panel</button>
     </div>
+
+    <aside class="admin-modal" id="admin-modal" aria-hidden="true">
+        <div class="admin-modal__inner">
+            <button type="button" class="admin-modal__back" id="admin-modal-back" aria-label="Назад">
+                <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 243.58" aria-hidden="true">
+                    <path fill-rule="nonzero" d="M138.43 243.58 0 122.84 140.47 0l20.92 23.91-94.92 83 445.53-.42v31.75l-445.54.41 92.89 81.02z"/>
+                </svg>
+            </button>
+            <h2>Вход в администрационную панель code-x</h2>
+            <form id="admin-login-form" autocomplete="off">
+                <label for="admin-login">Логин</label>
+                <input id="admin-login" name="login" type="text" placeholder="Логин">
+                <label for="admin-password">Пароль</label>
+                <input id="admin-password" name="password" type="password" placeholder="Пароль">
+                <button type="submit" class="admin-modal__submit">Войти</button>
+            </form>
+        </div>
+    </aside>
+
+    <aside class="projects-panel" id="projects-panel" aria-hidden="true">
+        <div class="projects-panel__inner">
+            <button type="button" class="projects-panel__back" id="projects-panel-back" aria-label="Назад">
+                <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 243.58" aria-hidden="true">
+                    <path fill-rule="nonzero" d="M138.43 243.58 0 122.84 140.47 0l20.92 23.91-94.92 83 445.53-.42v31.75l-445.54.41 92.89 81.02z"/>
+                </svg>
+            </button>
+            <h2>Проекты</h2>
+            <nav class="projects-panel__list" aria-label="Список проектов">
+                <a class="projects-row" href="https://furryuser.ru/" target="_blank" rel="noopener noreferrer">
+                    <img class="projects-row__icon" src="./images/code-x-1.svg" width="40" height="40" alt="">
+                    <span class="projects-row__label">Code-X</span>
+                </a>
+                <a class="projects-row" href="https://overcourse.ru/" target="_blank" rel="noopener noreferrer">
+                    <img class="projects-row__icon" src="./images/Overcourse-icon 1.svg" width="40" height="40" alt="">
+                    <span class="projects-row__label">Overcourse</span>
+                </a>
+                <a class="projects-row" href="https://top-works.ru/" target="_blank" rel="noopener noreferrer">
+                    <img class="projects-row__icon" src="./images/Top-works.svg" width="40" height="40" alt="">
+                    <span class="projects-row__label">Top-works</span>
+                </a>
+                <a class="projects-row" href="https://www.checkerr.ru/" target="_blank" rel="noopener noreferrer">
+                    <img class="projects-row__icon" src="./images/Checkerr.svg" width="40" height="40" alt="">
+                    <span class="projects-row__label">Checkerr</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
     <script>
         const ACCENT_HEX = '#14CF93';
 
@@ -240,7 +382,6 @@
 
         const textCanvas = document.getElementById('text-canvas');
         const tCtx = textCanvas.getContext('2d', { willReadFrequently: true });
-        const modal = document.querySelector('.modal');
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -288,9 +429,22 @@
         const digitMap = makeDigitAtlasTexture();
 
         let mouse = new THREE.Vector3(-1000, -1000, 0);
-        let modalShown = false;
         let floatBlend = 0;
-        let frameCounter = 0;
+
+        /** Кнопки внизу показываем только после того, как частицы почти сошлись с целью. */
+        let revealButtonsAfterLogoSettled = true;
+        let buttonsRevealSettleStreak = 0;
+        /** Смещение к «дыханию» не входит в базовые targetPositions — сравнение с tx даёт вечный лаг; меряем до базовой формы. */
+        const BUTTONS_REVEAL_RMS = 1.35;
+        const BUTTONS_REVEAL_STREAK_FRAMES = 28;
+        /** Если метрика не сработает (редкий кейс), всё равно показать кнопки. */
+        let revealButtonsWaitUntil = 0;
+        const BUTTONS_REVEAL_FALLBACK_MS = 16000;
+
+        /** Только первая сборка логотипа при загрузке — медленный lerp; после любого действия — быстрее (слова и возврат к лого). */
+        let useIntroParticleMorphLerp = true;
+        const PARTICLE_LERP_INTRO = 0.015;
+        const PARTICLE_LERP_INTERACTIVE = 0.025;
 
         const baseColor = new THREE.Color(ACCENT_HEX);
         const goldColor = new THREE.Color(0xffffff);
@@ -416,6 +570,201 @@
             fillTargetsFromRasterPoints(points);
         }
 
+        /**
+         * Вертикальное слово в мировых координатах — те же частицы, новые targetPositions.
+         * @param {string} word — посимвольно сверху вниз
+         * @param {number} worldCenterX — смещение столбца по X (слева от центра отрицательное, справа положительное)
+         * @param {{ fontSize?: number, lineGapMult?: number, maxWorldHeight?: number, pad?: number }} [opts]
+         */
+        function buildTargetsVerticalWord(word, worldCenterX, opts) {
+            const fontSize = opts && opts.fontSize != null ? opts.fontSize : 152;
+            const lineGapMult = opts && opts.lineGapMult != null ? opts.lineGapMult : 0.86;
+            const maxWorldHeight = opts && opts.maxWorldHeight != null ? opts.maxWorldHeight : 92;
+            const pad = opts && opts.pad != null ? opts.pad : 28;
+            const lineGap = fontSize * lineGapMult;
+
+            tCtx.font = `bold ${fontSize}px Arial`;
+            let maxCharW = 0;
+            for (let ci = 0; ci < word.length; ci++) {
+                maxCharW = Math.max(maxCharW, tCtx.measureText(word[ci]).width);
+            }
+
+            const widthPx = Math.ceil(maxCharW + pad * 2);
+            const heightPx = Math.ceil(word.length * lineGap + pad * 2);
+
+            textCanvas.width = widthPx;
+            textCanvas.height = heightPx;
+
+            /* Прозрачный фон — иначе маска по alpha дала бы сплошной прямоугольник. */
+            tCtx.clearRect(0, 0, widthPx, heightPx);
+            tCtx.fillStyle = '#ffffff';
+            tCtx.textAlign = 'center';
+            tCtx.textBaseline = 'middle';
+            tCtx.font = `bold ${fontSize}px Arial`;
+
+            let y = pad + lineGap * 0.5;
+            for (let ci = 0; ci < word.length; ci++) {
+                tCtx.fillText(word[ci], widthPx / 2, y);
+                y += lineGap;
+            }
+
+            const imageData = tCtx.getImageData(0, 0, widthPx, heightPx);
+            const pixels = imageData.data;
+            const points = [];
+
+            let scale = maxWorldHeight / heightPx;
+            if (scale > 0.95) scale = 0.95;
+
+            const worldCenterY = 0;
+
+            for (let py = 0; py < heightPx; py += 1) {
+                for (let px = 0; px < widthPx; px += 1) {
+                    const i4 = (py * widthPx + px) * 4;
+                    const a = pixels[i4 + 3];
+                    const r = pixels[i4];
+                    const g = pixels[i4 + 1];
+                    const b = pixels[i4 + 2];
+                    if (a > 128 && r + g + b > 380) {
+                        points.push({
+                            x: (px - widthPx / 2) * scale + worldCenterX,
+                            y: (heightPx / 2 - py) * scale + worldCenterY
+                        });
+                    }
+                }
+            }
+
+            fillTargetsFromRasterPoints(points);
+        }
+
+        function buildTargetsAdminVertical() {
+            buildTargetsVerticalWord('ADMIN', -26, {
+                fontSize: 152,
+                lineGapMult: 0.86,
+                maxWorldHeight: 92,
+                pad: 28
+            });
+        }
+
+        function buildTargetsProjectsVertical() {
+            buildTargetsVerticalWord('PROJECTS', 28, {
+                fontSize: 100,
+                lineGapMult: 0.84,
+                maxWorldHeight: 102,
+                pad: 22
+            });
+        }
+
+        const adminModal = document.getElementById('admin-modal');
+        const adminForm = document.getElementById('admin-login-form');
+        const adminModalBack = document.getElementById('admin-modal-back');
+        const projectsPanel = document.getElementById('projects-panel');
+        const projectsPanelBack = document.getElementById('projects-panel-back');
+        const buttonsBar = document.querySelector('.buttons');
+
+        function setProjectsPanelOpen(open) {
+            projectsPanel.classList.toggle('projects-panel--visible', open);
+            projectsPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+
+        function setButtonsBarConcealed(concealed) {
+            buttonsBar.classList.toggle('buttons--concealed', concealed);
+        }
+
+        function hideAdminModalOnly() {
+            adminModal.classList.remove('admin-modal--visible');
+            adminModal.setAttribute('aria-hidden', 'true');
+        }
+
+        async function leaveAdminPanel() {
+            const wasAdminOpen = adminModal.classList.contains('admin-modal--visible');
+            hideAdminModalOnly();
+            floatBlend = 0;
+            if (!wasAdminOpen) {
+                return;
+            }
+            useIntroParticleMorphLerp = false;
+            revealButtonsAfterLogoSettled = true;
+            setButtonsBarConcealed(true);
+            buttonsRevealSettleStreak = 0;
+            revealButtonsWaitUntil = performance.now() + BUTTONS_REVEAL_FALLBACK_MS;
+            try {
+                await rasterizeSvgToPoints(LOGO_SVG_URL);
+            } catch (err) {
+                console.error(err);
+            }
+            buttonsRevealSettleStreak = 0;
+        }
+
+        function openProjectsPanelVisual() {
+            useIntroParticleMorphLerp = false;
+            revealButtonsAfterLogoSettled = false;
+            revealButtonsWaitUntil = 0;
+            setButtonsBarConcealed(true);
+            buildTargetsProjectsVertical();
+            floatBlend = 0;
+        }
+
+        async function leaveProjectsPanel() {
+            setProjectsPanelOpen(false);
+            floatBlend = 0;
+            useIntroParticleMorphLerp = false;
+            revealButtonsAfterLogoSettled = true;
+            setButtonsBarConcealed(true);
+            buttonsRevealSettleStreak = 0;
+            revealButtonsWaitUntil = performance.now() + BUTTONS_REVEAL_FALLBACK_MS;
+            try {
+                await rasterizeSvgToPoints(LOGO_SVG_URL);
+            } catch (err) {
+                console.error(err);
+            }
+            buttonsRevealSettleStreak = 0;
+        }
+
+        document.querySelector('.enter-button').addEventListener('click', () => {
+            setProjectsPanelOpen(false);
+            useIntroParticleMorphLerp = false;
+            revealButtonsAfterLogoSettled = false;
+            revealButtonsWaitUntil = 0;
+            setButtonsBarConcealed(true);
+            buildTargetsAdminVertical();
+            floatBlend = 0;
+            adminModal.classList.add('admin-modal--visible');
+            adminModal.setAttribute('aria-hidden', 'false');
+        });
+
+        document.querySelector('.projects-button').addEventListener('click', async () => {
+            if (projectsPanel.classList.contains('projects-panel--visible')) {
+                await leaveProjectsPanel();
+                return;
+            }
+            if (adminModal.classList.contains('admin-modal--visible')) {
+                hideAdminModalOnly();
+                openProjectsPanelVisual();
+                setProjectsPanelOpen(true);
+                return;
+            }
+            openProjectsPanelVisual();
+            setProjectsPanelOpen(true);
+        });
+
+        projectsPanelBack.addEventListener('click', () => {
+            leaveProjectsPanel();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && projectsPanel.classList.contains('projects-panel--visible')) {
+                leaveProjectsPanel();
+            }
+        });
+
+        adminModalBack.addEventListener('click', () => {
+            leaveAdminPanel();
+        });
+
+        adminForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+        });
+
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
             positions[i3] = (Math.random() - 0.5) * 1200;
@@ -490,6 +839,10 @@
             requestAnimationFrame(() => {
                 document.getElementById('canvas-container').classList.add('loaded');
             });
+
+            if (revealButtonsAfterLogoSettled) {
+                revealButtonsWaitUntil = performance.now() + BUTTONS_REVEAL_FALLBACK_MS;
+            }
         }
 
         camera.position.z = 100;
@@ -516,12 +869,6 @@
             mouse.copy(camera.position).addScaledVector(mouseDir, t);
         });
 
-        function showModal() {
-            if (modalShown) return;
-            modalShown = true;
-            modal.classList.add('modal--visible');
-        }
-
         function animate() {
             requestAnimationFrame(animate);
             if (document.hidden) return;
@@ -536,14 +883,13 @@
             const mousePushStrength = 0.88;
             const mouseVelocityDamping = 0.9;
 
-            /* Как в оригинале до унификации: первая фаза была 0.015 / 0.95 — так слово собирается медленнее */
-            const currentLerpSpeed = 0.015;
+            /* Первая сборка лого при загрузке — PARTICLE_LERP_INTRO; после кнопок «назад» / админ / проекты — быстрее. */
+            const currentLerpSpeed = useIntroParticleMorphLerp ? PARTICLE_LERP_INTRO : PARTICLE_LERP_INTERACTIVE;
             const friction = 0.95;
 
-            if (modalShown && floatBlend < 1) {
+            if (floatBlend < 1) {
                 floatBlend = Math.min(1, floatBlend + 0.0028);
             }
-
             const tFloat = performance.now() * 0.001;
 
             const br = baseColor.r;
@@ -553,12 +899,17 @@
             const gg = goldColor.g;
             const gb = goldColor.b;
 
-            for (let i = 0, i3 = 0; i < particleCount; i++, i3 += 3) {
-                let tx = targetPositions[i3];
-                let ty = targetPositions[i3 + 1];
-                let tz = targetPositions[i3 + 2];
+            let settleErrSum = 0;
 
-                if (modalShown && floatBlend > 0) {
+            for (let i = 0, i3 = 0; i < particleCount; i++, i3 += 3) {
+                const bx = targetPositions[i3];
+                const by = targetPositions[i3 + 1];
+                const bz = targetPositions[i3 + 2];
+                let tx = bx;
+                let ty = by;
+                let tz = bz;
+
+                if (floatBlend > 0) {
                     const ph = floatPhase[i];
                     const w = floatBlend;
                     const ampXY = 0.8;
@@ -604,42 +955,40 @@
                 posArr[i3] += (tx - posArr[i3]) * currentLerpSpeed;
                 posArr[i3 + 1] += (ty - posArr[i3 + 1]) * currentLerpSpeed;
                 posArr[i3 + 2] += (tz - posArr[i3 + 2]) * currentLerpSpeed;
+
+                const sx = posArr[i3] - bx;
+                const sy = posArr[i3 + 1] - by;
+                const sz = posArr[i3 + 2] - bz;
+                settleErrSum += sx * sx + sy * sy + sz * sz;
+            }
+
+            if (revealButtonsAfterLogoSettled) {
+                if (revealButtonsWaitUntil > 0 && performance.now() >= revealButtonsWaitUntil) {
+                    setButtonsBarConcealed(false);
+                    revealButtonsAfterLogoSettled = false;
+                    buttonsRevealSettleStreak = 0;
+                    revealButtonsWaitUntil = 0;
+                } else {
+                    const rms = Math.sqrt(settleErrSum / particleCount);
+                    if (rms < BUTTONS_REVEAL_RMS) {
+                        buttonsRevealSettleStreak += 1;
+                        if (buttonsRevealSettleStreak >= BUTTONS_REVEAL_STREAK_FRAMES) {
+                            setButtonsBarConcealed(false);
+                            revealButtonsAfterLogoSettled = false;
+                            buttonsRevealSettleStreak = 0;
+                            revealButtonsWaitUntil = 0;
+                        }
+                    } else {
+                        buttonsRevealSettleStreak = 0;
+                    }
+                }
             }
 
             posAttr.needsUpdate = true;
             colAttr.needsUpdate = true;
 
-            if (pointsObj && !modalShown) {
+            if (pointsObj) {
                 pointsObj.rotation.y *= 0.9;
-            }
-
-            frameCounter += 1;
-            if (!modalShown && frameCounter % 6 === 0) {
-                let sumDist = 0;
-                let sumVel = 0;
-                let sampleCount = 0;
-                const sampleStep = 64;
-
-                for (let i = 0; i < particleCount; i += sampleStep) {
-                    const i3 = i * 3;
-                    const dx = targetPositions[i3] - posAttr.array[i3];
-                    const dy = targetPositions[i3 + 1] - posAttr.array[i3 + 1];
-                    const dz = targetPositions[i3 + 2] - posAttr.array[i3 + 2];
-                    sumDist += Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-                    const vx = velocities[i3];
-                    const vy = velocities[i3 + 1];
-                    const vz = velocities[i3 + 2];
-                    sumVel += Math.sqrt(vx * vx + vy * vy + vz * vz);
-                    sampleCount += 1;
-                }
-
-                const avgDist = sumDist / sampleCount;
-                const avgVel = sumVel / sampleCount;
-                /* Пораньше: слово уже читается, но частицы ещё могут медленно доезжать */
-                if (avgDist < 1 && avgVel < 0.045) {
-                    showModal();
-                }
             }
 
             renderer.render(scene, camera);
